@@ -11,12 +11,14 @@ export const JobList = ({ jobList }: IJobList) => {
   });
 
   useEffect(() => {
-    localStorage.setItem('likedList', JSON.stringify(likedList));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('likedList', JSON.stringify(likedList));
+    }
   }, [likedList]);
 
   const handleToggleFav = (jobId: string) => {
     if (likedList.includes(jobId)) {
-      window.dispatchEvent(new Event("storage"));
+      window.dispatchEvent(new Event('storage'));
       setLikedList(likedList.filter((id) => id !== jobId));
     } else {
       setLikedList((prevLikedList) => [...prevLikedList, jobId]);

@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 
@@ -10,11 +9,13 @@ export const CustomButton = ({
   containerStyles,
   handleClick,
   isLiked,
+  type,
+  disabled = false,
 }: ICustomButton) => {
   return (
     <button
-      disabled={false}
-      type={'button'}
+      disabled={disabled}
+      type={type || 'button'}
       className={`custom-btn ${containerStyles}`}
       onClick={handleClick}
     >

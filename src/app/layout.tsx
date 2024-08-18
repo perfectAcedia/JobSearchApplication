@@ -19,7 +19,7 @@ export default function RootLayout({
       <body className='relative'>
         <Header />
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );

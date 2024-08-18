@@ -193,6 +193,9 @@
   @apply flex-1 max-sm:w-full flex justify-start items-center;
 }
 
+.search-manufacturer__textArea {
+  @apply w-full max-w-md h-[48px] pl-12 p-4 rounded-lg max-sm:rounded-full bg-light-white outline-none text-sm;
+}
 .search-manufacturer__input {
   @apply w-full max-w-md h-[48px] pl-12 p-4 rounded-full max-sm:rounded-full bg-light-white outline-none text-sm;
 }
@@ -207,4 +210,8 @@
 
 .nav-link {
   @apply flex justify-center items-center hover:bg-black/5 rounded-lg;
+}
+
+.section-styles {
+  @apply text-black text-xl font-bold self-center;
 }

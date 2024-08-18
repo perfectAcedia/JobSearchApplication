@@ -1,16 +1,13 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
-import Image from 'next/image';
 import { CustomButton } from '../CustomButton';
 import IJobCard from './JobCard.types';
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
+
+import convertTimestampIntoDate from '@/utils/convertTimestampIntoDate';
 
 const JobCard = ({ job, likedList, handleToggleFav }: IJobCard) => {
-  const convertTimestampIntoDate = (timestamp: number) => {
-    const date = new Date(timestamp * 1000);
-    return date.toLocaleDateString();
-  };
-
   return (
     <div className='job-card group'>
       <div className='job-card__content'>
@@ -20,8 +17,8 @@ const JobCard = ({ job, likedList, handleToggleFav }: IJobCard) => {
         </div>
         <img
           className='w-auto h-14 self-center'
-          src={job.employer_logo}
-          alt='Company Logo'
+          src={job.employer_logo || '/next.svg'}
+          alt='/next.svg'
         />
         <h2 className='job-card__content-title'>{job.job_title}</h2>
         <h2 className='job-card__content-title'>
@@ -31,10 +28,12 @@ const JobCard = ({ job, likedList, handleToggleFav }: IJobCard) => {
           {`${job.job_country}, ${job.job_city || ''}`}
         </h2>
         <div className='flex w-full justify-between'>
-          <CustomButton
-            title='View details'
-            containerStyles='bg-sky-400 rounded-full self-center w-[70%]'
-          />
+          <Link href={`/job-details/${job.job_id}`} className='w-full'>
+            <CustomButton
+              title='View details'
+              containerStyles='bg-sky-400 rounded-full self-center w-[80%]'
+            />
+          </Link>
           <CustomButton
             icon={true}
             containerStyles='!p-0'

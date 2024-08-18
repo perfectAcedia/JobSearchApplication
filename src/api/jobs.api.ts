@@ -1,7 +1,7 @@
 import IJobDetails from '@/utils/jobDetails.type';
 import axios from 'axios';
 
-const API_KEY = '0f3c26e55dmshe25341a72559d50p1c77e9jsn44acd306d75a';
+const API_KEY = 'e3f421eb0fmsh7a9ef0cde6d4db8p18b67bjsn31f85d7d3ff4';
 const API_HOST = 'jsearch.p.rapidapi.com';
 
 export async function getJobList(

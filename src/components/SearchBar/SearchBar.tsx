@@ -1,16 +1,11 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Input } from '@headlessui/react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-export const SearchBar = ({
-  setQuerys,
-}: {
-  setQuerys: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+export const SearchBar = () => {
   const [query, setQuery] = useState('');
 
   const router = useRouter();

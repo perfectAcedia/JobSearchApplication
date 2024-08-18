@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Input, Textarea } from '@headlessui/react';
+import { Input } from '@headlessui/react';
 import { Form, Formik } from 'formik';
 import classNames from 'classnames';
 import * as Yup from 'yup';
 
 import { CustomButton } from '@/components/CustomButton';
-import { createUser } from '@/api/user.api';
+import { createUser, userLogin } from '@/api/user.api';
 import IUser from '@/utils/user.type';
 import { useRouter } from 'next/navigation';
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -21,15 +21,6 @@ export default function CreateProfile() {
       .matches(emailRegex, 'Please enter a valid email address')
       .required('Email is required'),
     password: Yup.string().required('Password is required'),
-    fullName: Yup.string()
-      .min(4, 'At least, enter your first name')
-      .max(20, 'This name is too long!')
-      .required('Required'),
-    jobTitle: Yup.string()
-      .min(2, 'Enter more details')
-      .max(30, 'Too more details')
-      .required('Job title is required'),
-    additionalInformation: Yup.string().min(0).max(200, 'To much details'),
   });
 
   return (
@@ -42,13 +33,13 @@ export default function CreateProfile() {
             initialValues={{
               email: '',
               password: '',
-              fullName: '',
-              jobTitle: '',
-              additionalInformation: '',
             }}
             validationSchema={createProfileSchema}
-            onSubmit={async (values: IUser, { setSubmitting }) => {
-              const user = await createUser(values);
+            onSubmit={async (
+              values: { email: string; password: string },
+              { setSubmitting }
+            ) => {
+              const user = await userLogin(values);
               if (user) {
                 localStorage.setItem('userData', user.jobTitle);
                 router.push('/jobs');
@@ -109,67 +100,8 @@ export default function CreateProfile() {
                     })}
                   />
                 </div>
-                <div className='flex flex-col w-full'>
-                  <div className='flex justify-between items-center'>
-                    <p>Name</p>
-                    <p className='text-red-400 text-sm'>
-                      {errors.fullName && touched.fullName && errors.fullName}
-                    </p>
-                  </div>
-                  <Input
-                    type='fullName'
-                    name='fullName'
-                    placeholder='Your name'
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.fullName}
-                    className={classNames('search-manufacturer__input', {
-                      'border-2 border-red-400':
-                        errors.fullName && touched.fullName && errors.fullName,
-                    })}
-                  />
-                </div>
-                <div className='flex flex-col w-full'>
-                  <div className='flex justify-between items-center'>
-                    <p>Job Title</p>
-                    <p className='text-red-400 text-sm'>
-                      {errors.jobTitle && touched.jobTitle && errors.jobTitle}
-                    </p>
-                  </div>
-                  <Input
-                    type='jobTitle'
-                    name='jobTitle'
-                    placeholder='Your prefered job title'
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.jobTitle}
-                    className={classNames('search-manufacturer__input', {
-                      'border-2 border-red-400':
-                        errors.jobTitle && touched.jobTitle && errors.jobTitle,
-                    })}
-                  />
-                </div>
-                <div className='flex flex-col w-full'>
-                  <div className='flex justify-between items-center'>
-                    <p>About me</p>
-                    <p className='text-red-400 text-sm'>
-                      {errors.additionalInformation &&
-                        touched.additionalInformation &&
-                        errors.additionalInformation}
-                    </p>
-                  </div>
-                  <Textarea
-                    name='additionalInformation'
-                    placeholder='Tell us more about you'
-                    className='search-manufacturer__textArea !h-[100px]'
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.additionalInformation}
-                  />
-                </div>
-
                 <CustomButton
-                  title='Submit'
+                  title='Log In'
                   type='submit'
                   disabled={isSubmitting}
                   containerStyles='bg-primary-blue rounded-full mt-5 w-[50%]'

@@ -1,13 +1,13 @@
 'use client';
 
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { SearchBar } from '@/components/SearchBar';
 import Test from '@/utils/jobList.json';
 import IJobDetails from '@/utils/jobDetails.type';
 import { JobList } from '@/components/JobList';
 import { getJobList } from '@/api/jobs.api';
+
 interface IHome {
   searchParams: {
     query: string;
@@ -15,52 +15,62 @@ interface IHome {
 }
 
 export default function Jobs({ searchParams }: IHome) {
-  const [jobList, setJobList] = useState<IJobDetails[]>([]);
-  const [query, setQuery] = useState('');
+  const [jobList, setJobList] = useState<IJobDetails[]>(
+    Test.data as IJobDetails[]
+  );
   const [isLoading, setIsLoading] = useState(false);
+  const [isRecomendation, setIsRecomendation] = useState(false);
 
-  const fetchJobData = async () => {
-    try {
-      setIsLoading(true);
-      const data = await getJobList(searchParams.query);
-      setJobList(data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Failed to fetch job data:', error);
-      setIsLoading(false);
-    }
-  };
+  const fetchJobData = useCallback(
+    async (query: string) => {
+      try {
+        setIsLoading(true);
+        const data = await getJobList(query);
+        setJobList(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch job data:', error);
+        setIsLoading(false);
+      }
+    },
+    [searchParams.query]
+  );
 
   useEffect(() => {
+    const userJobTitle = localStorage.getItem('userData');
+
     if (searchParams.query && searchParams.query.length > 0) {
-      fetchJobData();
+      // fetchJobData(searchParams.query);
+    } else if (userJobTitle) {
+      // fetchJobData(userJobTitle);
+      setIsRecomendation(true);
     }
-  }, [searchParams]);
+  }, [fetchJobData, searchParams]);
 
   return (
     <main className='overflow-hidden'>
-      <div
-        className='padding-x padding-y max-width flex flex-col'
-        id='discover'
-      >
+      <div className='padding-x padding-y max-width flex flex-col'>
         <div className='home__text-container'>
           <h1 className='text-4xl font-extrabold'>Job List</h1>
           <p>Find your perfect job</p>
-          <SearchBar setQuerys={setQuery} />
+          <SearchBar />
         </div>
 
         {isLoading ? (
-          <section className='text-black text-xl font-bold self-center'>
-            Loading...
-          </section>
+          <section className='section-styles'>Loading...</section>
         ) : jobList.length > 0 ? (
-          <JobList jobList={jobList} />
+          <>
+            {isRecomendation && !searchParams.query && (
+              <section className='section-styles'>
+                Recomended jobs based on your profile
+              </section>
+            )}
+            <JobList jobList={jobList} />
+          </>
         ) : searchParams.query ? (
-          <section className='text-black text-xl font-bold self-center'>
-            Opps, no results
-          </section>
+          <section className='section-styles'>Opps, no results</section>
         ) : (
-          <section className='text-black text-xl font-bold self-center'>
+          <section className='section-styles'>
             Enter your job preferences
           </section>
         )}
