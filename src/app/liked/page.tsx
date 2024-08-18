@@ -8,8 +8,8 @@ import React, { useEffect, useState } from 'react';
 
 export default function Liked() {
   const [likedList, setLikedList] = useState<string[]>(() => {
-    const storedLikedList = localStorage.getItem('likedList');
-    return storedLikedList ? JSON.parse(storedLikedList) : [];
+    const storedLikedList = localStorage.getItem('likedList') || '[]';
+    return JSON.parse(storedLikedList);
   });
 
   const [jobList, setJobList] = useState<IJobDetails[]>([]);
