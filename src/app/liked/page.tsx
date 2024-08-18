@@ -7,13 +7,16 @@ import IJobDetails from '@/utils/jobDetails.type';
 import React, { useEffect, useState } from 'react';
 
 export default function Liked() {
-  const [likedList, setLikedList] = useState<string[]>(() => {
-    const storedLikedList = localStorage.getItem('likedList') || '[]';
-    return JSON.parse(storedLikedList);
-  });
-
+  const [likedList, setLikedList] = useState<string[]>([]);
   const [jobList, setJobList] = useState<IJobDetails[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedLikedList = localStorage.getItem('likedList') || '[]';
+      setLikedList(JSON.parse(storedLikedList));
+    }
+  }, []);
 
   const fetchJobData = async () => {
     try {
