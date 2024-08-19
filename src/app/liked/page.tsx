@@ -21,10 +21,6 @@ export default function Liked() {
         localStorage.getItem('likedList') || '[]'
       );
 
-      const updatedJobList = jobList?.filter((job) =>
-        currentLikedList.includes(job.job_id)
-      );
-
       setLikedJobIds(currentLikedList);
     };
 
@@ -40,18 +36,10 @@ export default function Liked() {
         </section>
       ) : isError ? (
         <section className='text-black text-xl font-bold self-center'>
-          Failed to load liked jobs
+          You have no liked jobs yet
         </section>
       ) : (
-        <>
-          {jobList?.length !== 0 ? (
-            <JobList jobList={jobList} />
-          ) : (
-            <h2 className='job-card__content-title text-center'>
-              You have no liked jobs yet
-            </h2>
-          )}
-        </>
+        <>{jobList?.length !== 0 && <JobList jobList={jobList} />}</>
       )}
     </main>
   );
