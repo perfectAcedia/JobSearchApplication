@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Job Search Application
 
-## Getting Started
+This project is a job search application built with Next.js 14 and TypeScript. It allows users to search for jobs, view job details, like and manage their favorite jobs, create a profile, and receive job recommendations based on their profile data. The application also includes a small Express.js backend for authentication, using MongoDB for user storage.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Features](#features)
+- [Technologies](#technologies)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Folder Structure](#folder-structure)
+- [API Endpoints](#api-endpoints)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Job Search**: Users can search for jobs by title and view results as a list of cards.
+- **Job Details**: Each job proposal has a details page with information such as title, image, description, etc.
+- **Like Jobs**: Users can like jobs, which are stored in LocalStorage and displayed on a separate `/liked` page.
+- **Profile Creation**: Users can create a profile with name, desired job title, and additional information, which is stored in LocalStorage.
+- **Job Recommendations**: On the `/jobs` page, users receive job recommendations based on their profile data.
+- **Authentication**: A small Express.js backend handles user authentication (email and password) with MongoDB for storage.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Technologies
 
-## Learn More
+- **Next.js 14**: Framework for server-rendered React applications.
+- **TypeScript**: JavaScript with type definitions for better development experience.
+- **Tailwind CSS**: Utility-first CSS framework for styling.
+- **Formik**: Library for managing form state and validation.
+- **Yup**: Schema builder for validation.
+- **Axios**: HTTP client for making API requests.
+- **SWR**: React hook library for data fetching and caching.
+- **Express.js**: Backend framework for handling API routes and authentication.
+- **MongoDB**: NoSQL database for storing user information.
+- **Mongoose**: ODM (Object Data Modeling) library for MongoDB and Node.js.
 
-To learn more about Next.js, take a look at the following resources:
+## Installation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To get started with the project, follow these steps:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
