@@ -33,3 +33,21 @@ This project is a job search application built with Next.js 14 and TypeScript. I
    ```bash
    git clone <repository-url>
    cd <repository-directory>
+   
+2. **Install Dependencies**
+
+   ```bash
+   npm install
+   
+3. **Run the Development Server**
+
+   ```bash
+   npm run dev
+
+Your application should now be running at http://localhost:3000.
+
+## Project Structure
+- **/pages** Contains Next.js pages and API routes.
+- **/components** Reusable React components, each with its own folder.
+- **/utils** Utility functions and constants
+- **/api** functions for making API calls
