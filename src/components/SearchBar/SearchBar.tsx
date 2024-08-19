@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-
-import { Input } from '@headlessui/react';
 import { useRouter } from 'next/navigation';
+import { Input } from '@headlessui/react';
 
 export const SearchBar = () => {
   const [query, setQuery] = useState('');

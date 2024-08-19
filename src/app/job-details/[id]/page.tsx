@@ -15,7 +15,7 @@ export default function JobDetails() {
     decodeURIComponent(id as string)
   );
 
-  const job = jobList ? jobList[0] : null; // Get the first job from the list
+  const job = jobList ? jobList[0] : null;
 
   if (isLoading) {
     return (

@@ -1,11 +1,11 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
 import { CustomButton } from '../CustomButton';
-import { useCallback, useEffect, useState } from 'react';
 
 export const Header = () => {
   const pathname = usePathname();
