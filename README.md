@@ -44,3 +44,52 @@ To get started with the project, follow these steps:
    ```bash
    git clone <repository-url>
    cd <repository-directory>
+   
+2. **Install dependencies:**
+   - Navigate to the project directory and install the frontend dependencies:
+     ```bash
+     npm install
+     ```
+
+   - Navigate to the backend directory and install the backend dependencies:
+     ```bash
+     cd backend
+     npm install
+     ```
+
+3. **Set up environment variables:**
+   - Create a `.env` file in the root directory of the frontend project and add the following environment variables:
+     ```env
+     NEXT_PUBLIC_API_URL=<your-api-url>
+     ```
+   - Create a `.env` file in the `backend` directory and add the following environment variables:
+     ```env
+     MONGO_URI=<your-mongodb-uri>
+     JWT_SECRET=<your-jwt-secret>
+     ```
+
+4. **Run the development servers:**
+   - Start the Next.js frontend development server:
+     ```bash
+     npm run dev
+     ```
+   - Start the Express backend server:
+     ```bash
+     cd ../backend
+     npm run start
+     ```
+
+5. **Open your browser:**
+   - Visit `http://localhost:3000` to access the frontend of the application.
+   - The Express backend server should be running on `http://localhost:5000` or the port specified in your `backend` package.json.
+
+## Usage
+
+- **Job Search:** Navigate to the homepage to search for jobs by title. Results will be displayed as a list of job cards.
+- **Job Details:** Click on the 'details' button of a job card to view more information about the job on a dedicated details page.
+- **Liked Jobs:** Visit `/liked` to view and manage your list of liked jobs. You can add or remove jobs from this list.
+- **Create Profile:** Access `/create-profile` to create or update your profile with your name, desired job title, and additional information.
+- **Job Recommendations:** On the `/jobs` page, you will receive job recommendations based on the profile information stored in LocalStorage.
+
+## Folder Structure
+
