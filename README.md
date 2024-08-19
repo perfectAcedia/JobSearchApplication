@@ -31,7 +31,9 @@ This project is a job search application built with Next.js 14 and TypeScript. I
 
 - **Visit /jobs**: To access the job search page and see job recommendations based on your profile data.
 - **Visit /job-details/:id**: To view specific job details.
+- **Visit /liked**: To see if you have any saved jobs.
 - **Visit /create-profile**:  To create your own profile with the desired Job Title.
+- **Visit /login**:  To log into an already created profile.
 
 ## Setup
 
