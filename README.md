@@ -16,13 +16,22 @@ This project is a job search application built with Next.js 14 and TypeScript. I
 
 ## Technologies
 
-- **Next.js 14** with TypeScript
-- **Tailwind CSS** for basic styling
-- **Formik** for form handling, with **Yup** for validation
-- **Axios** for making API requests
-- **SWR** for data fetching and caching
-- **Express** for the backend API
-- **MongoDB** with **Mongoose** for database management
+- **Next.js 14**: Framework for server-rendered React applications.
+- **TypeScript**: JavaScript with type definitions for better development experience.
+- **Tailwind CSS**: Utility-first CSS framework for styling.
+- **Formik**: Library for managing form state and validation.
+- **Yup**: Schema builder for validation.
+- **Axios**: HTTP client for making API requests.
+- **SWR**: React hook library for data fetching and caching.
+- **Express.js**: Backend framework for handling API routes and authentication.
+- **MongoDB**: NoSQL database for storing user information.
+- **Mongoose**: ODM (Object Data Modeling) library for MongoDB and Node.js.
+  
+## Usage
+
+- **Visit /jobs**: To access the job search page and see job recommendations based on your profile data.
+- **Visit /job-details/:id**: To view specific job details.
+- **Visit /create-profile**:  To create your own profile with the desired Job Title.
 
 ## Setup
 
@@ -51,3 +60,16 @@ Your application should now be running at http://localhost:3000.
 - **/components** Reusable React components, each with its own folder.
 - **/utils** Utility functions and constants
 - **/api** functions for making API calls
+
+## API Endpoints
+- **GET /jobs**: Fetch jobs based on query parameters.
+- **POST /login**: Authenticate user login.
+- **POST /sign-up**: Create a new user.
+
+## Deployment
+The frontend application is deployed on Vercel. The backend is deployed on Render. You can access the live versions of the application through the provided deployment URLs.
+- **Versel**: (https://job-search-application-cyan.vercel.app/)
+- **POST /login**: Authenticate user login.
+
+## Contribution
+   Feel free to open issues or submit pull requests if you find bugs or have improvements.
