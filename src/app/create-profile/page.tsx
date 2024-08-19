@@ -5,32 +5,33 @@ import { Input, Textarea } from '@headlessui/react';
 import { Form, Formik } from 'formik';
 import classNames from 'classnames';
 import * as Yup from 'yup';
+import { enqueueSnackbar } from 'notistack';
 
 import { CustomButton } from '@/components/CustomButton';
 import { createUser } from '@/api/user.api';
 import IUser from '@/utils/user.type';
 import { useRouter } from 'next/navigation';
-const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+import { emailRegex } from '@/utils/emailRegex.constant';
+
+const createProfileSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Invalid email address')
+    .matches(emailRegex, 'Please enter a valid email address')
+    .required('Email is required'),
+  password: Yup.string().required('Password is required'),
+  fullName: Yup.string()
+    .min(4, 'At least, enter your first name')
+    .max(20, 'This name is too long!')
+    .required('Required'),
+  jobTitle: Yup.string()
+    .min(2, 'Enter more details')
+    .max(30, 'Too more details')
+    .required('Job title is required'),
+  additionalInformation: Yup.string().max(200, 'To much details'),
+});
 
 export default function CreateProfile() {
   const router = useRouter();
-
-  const createProfileSchema = Yup.object().shape({
-    email: Yup.string()
-      .email('Invalid email address')
-      .matches(emailRegex, 'Please enter a valid email address')
-      .required('Email is required'),
-    password: Yup.string().required('Password is required'),
-    fullName: Yup.string()
-      .min(4, 'At least, enter your first name')
-      .max(20, 'This name is too long!')
-      .required('Required'),
-    jobTitle: Yup.string()
-      .min(2, 'Enter more details')
-      .max(30, 'Too more details')
-      .required('Job title is required'),
-    additionalInformation: Yup.string().min(0).max(200, 'To much details'),
-  });
 
   return (
     <main className='overflow-hidden pt-12'>
@@ -47,13 +48,20 @@ export default function CreateProfile() {
               additionalInformation: '',
             }}
             validationSchema={createProfileSchema}
-            onSubmit={async (values: IUser, { setSubmitting }) => {
-              const user = await createUser(values);
-              if (user) {
-                localStorage.setItem('userData', user.jobTitle);
-                router.push('/jobs');
+            onSubmit={async (values: IUser, { setSubmitting, setErrors }) => {
+              try {
+                const user = await createUser(values);
+                if (user) {
+                  enqueueSnackbar('That was easy!');
+                  localStorage.setItem('userData', user.jobTitle);
+                  router.push('/jobs');
+                }
+              } catch (error) {
+                const errorMessage = 'Email already in use';
+                setErrors({ email: errorMessage });
+              } finally {
+                setSubmitting(false);
               }
-              setSubmitting(false);
             }}
           >
             {({
@@ -83,7 +91,7 @@ export default function CreateProfile() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.email}
-                    className={classNames('search-manufacturer__input', {
+                    className={classNames('search__input', {
                       'border-2 border-red-400':
                         errors.email && touched.email && errors.email,
                     })}
@@ -103,7 +111,7 @@ export default function CreateProfile() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.password}
-                    className={classNames('search-manufacturer__input', {
+                    className={classNames('search__input', {
                       'border-2 border-red-400':
                         errors.password && touched.password && errors.password,
                     })}
@@ -123,7 +131,7 @@ export default function CreateProfile() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.fullName}
-                    className={classNames('search-manufacturer__input', {
+                    className={classNames('search__input', {
                       'border-2 border-red-400':
                         errors.fullName && touched.fullName && errors.fullName,
                     })}
@@ -143,7 +151,7 @@ export default function CreateProfile() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.jobTitle}
-                    className={classNames('search-manufacturer__input', {
+                    className={classNames('search__input', {
                       'border-2 border-red-400':
                         errors.jobTitle && touched.jobTitle && errors.jobTitle,
                     })}
@@ -161,7 +169,7 @@ export default function CreateProfile() {
                   <Textarea
                     name='additionalInformation'
                     placeholder='Tell us more about you'
-                    className='search-manufacturer__textArea !h-[100px]'
+                    className='search__textArea !h-[100px]'
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.additionalInformation}
@@ -177,7 +185,6 @@ export default function CreateProfile() {
               </Form>
             )}
           </Formik>
-          <Input></Input>
         </div>
       </div>
     </main>

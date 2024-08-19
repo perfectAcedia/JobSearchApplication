@@ -3,10 +3,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { SearchBar } from '@/components/SearchBar';
-import Test from '@/utils/jobList.json';
-import IJobDetails from '@/utils/jobDetails.type';
 import { JobList } from '@/components/JobList';
-import { getJobList } from '@/api/jobs.api';
+import { useJobList } from '@/api/jobs.api';
 
 interface IHome {
   searchParams: {
@@ -15,37 +13,32 @@ interface IHome {
 }
 
 export default function Jobs({ searchParams }: IHome) {
-  const [jobList, setJobList] = useState<IJobDetails[]>(
-    Test.data as IJobDetails[]
-  );
-  const [isLoading, setIsLoading] = useState(false);
-  const [isRecomendation, setIsRecomendation] = useState(false);
-
-  const fetchJobData = useCallback(
-    async (query: string) => {
-      try {
-        setIsLoading(true);
-        const data = await getJobList(query);
-        setJobList(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Failed to fetch job data:', error);
-        setIsLoading(false);
-      }
-    },
-    [searchParams.query]
-  );
+  const [query, setQuery] = useState(searchParams.query);
+  const { jobList, isLoading, isError } = useJobList(query);
 
   useEffect(() => {
     const userJobTitle = localStorage.getItem('userData');
 
-    if (searchParams.query && searchParams.query.length > 0) {
-      // fetchJobData(searchParams.query);
+    if (searchParams.query) {
+      setQuery(searchParams.query);
     } else if (userJobTitle) {
-      // fetchJobData(userJobTitle);
-      setIsRecomendation(true);
+      setQuery(userJobTitle);
     }
-  }, [fetchJobData, searchParams]);
+  }, [searchParams.query]);
+
+  const renderText = useCallback(() => {
+    if (isLoading)
+      return <section className='section-styles'>Loading...</section>;
+    if (isError)
+      return <section className='section-styles'>Failed to load jobs</section>;
+    if (jobList?.length === 0)
+      return <section className='section-styles'>Oops, no results</section>;
+    if (!query) {
+      return (
+        <section className='section-styles'>Enter your job preferences</section>
+      );
+    }
+  }, [jobList, query]);
 
   return (
     <main className='overflow-hidden'>
@@ -56,24 +49,9 @@ export default function Jobs({ searchParams }: IHome) {
           <SearchBar />
         </div>
 
-        {isLoading ? (
-          <section className='section-styles'>Loading...</section>
-        ) : jobList.length > 0 ? (
-          <>
-            {isRecomendation && !searchParams.query && (
-              <section className='section-styles'>
-                Recomended jobs based on your profile
-              </section>
-            )}
-            <JobList jobList={jobList} />
-          </>
-        ) : searchParams.query ? (
-          <section className='section-styles'>Opps, no results</section>
-        ) : (
-          <section className='section-styles'>
-            Enter your job preferences
-          </section>
-        )}
+        {renderText()}
+
+        {jobList?.length > 0 && query && <JobList jobList={jobList} />}
       </div>
     </main>
   );

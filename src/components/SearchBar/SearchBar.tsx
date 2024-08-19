@@ -37,7 +37,7 @@ export const SearchBar = () => {
       <Input
         placeholder='Search'
         onChange={(event) => setQuery(event.target.value)}
-        className='search-manufacturer__input'
+        className='search__input'
       ></Input>
     </form>
   );

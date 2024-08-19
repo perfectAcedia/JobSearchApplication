@@ -17,12 +17,19 @@ export const JobList = ({ jobList }: IJobList) => {
   }, [likedList]);
 
   const handleToggleFav = (jobId: string) => {
-    if (likedList.includes(jobId)) {
-      window.dispatchEvent(new Event('storage'));
-      setLikedList(likedList.filter((id) => id !== jobId));
-    } else {
-      setLikedList((prevLikedList) => [...prevLikedList, jobId]);
-    }
+    setLikedList((prevState) => {
+      if (prevState.includes(jobId)) {
+        const updatedLikedList = prevState.filter((id) => id !== jobId);
+        localStorage.setItem('likedList', JSON.stringify(updatedLikedList));
+        window.dispatchEvent(new Event('storage'));
+        return updatedLikedList;
+      } else {
+        const updatedLikedList = [...prevState, jobId];
+        localStorage.setItem('likedList', JSON.stringify(updatedLikedList));
+        window.dispatchEvent(new Event('storage'));
+        return updatedLikedList;
+      }
+    });
   };
 
   return (

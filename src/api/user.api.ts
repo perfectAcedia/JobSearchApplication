@@ -4,7 +4,7 @@ import axios from 'axios';
 export async function createUser(data: IUser): Promise<IUser> {
   const options = {
     method: 'POST',
-    url: 'http://localhost:5000/sign-up',
+    url: 'https://jobsearchapplicationapi.onrender.com/sign-up',
     data,
   };
 
@@ -12,7 +12,6 @@ export async function createUser(data: IUser): Promise<IUser> {
     const response = await axios.request(options);
     return response.data[0];
   } catch (error) {
-    console.error('Something went wrong', error);
     throw error;
   }
 }
@@ -23,7 +22,7 @@ export async function userLogin(data: {
 }): Promise<IUser> {
   const options = {
     method: 'POST',
-    url: 'http://localhost:5000/login',
+    url: 'https://jobsearchapplicationapi.onrender.com/login',
     data,
   };
 
@@ -31,7 +30,6 @@ export async function userLogin(data: {
     const response = await axios.request(options);
     return response.data;
   } catch (error) {
-    console.error('Something went wrong', error);
     throw error;
   }
 }

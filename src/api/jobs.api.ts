@@ -1,58 +1,45 @@
 import IJobDetails from '@/utils/jobDetails.type';
 import axios from 'axios';
+import useSWR from 'swr';
 
-const API_KEY = 'e3f421eb0fmsh7a9ef0cde6d4db8p18b67bjsn31f85d7d3ff4';
+const API_KEY = 'eb11aacd1amshd126996db0cbb02p1e0fddjsn9e000f846068';
 const API_HOST = 'jsearch.p.rapidapi.com';
 
-export async function getJobList(
+const fetcher = (url: string) =>
+  axios
+    .get(url, {
+      headers: {
+        'x-rapidapi-key': API_KEY,
+        'x-rapidapi-host': API_HOST,
+      },
+    })
+    .then((res) => res.data.data);
+
+export function useJobList(
   query: string,
   page = '1',
   numPages = '20',
   datePosted = 'all'
-): Promise<IJobDetails[]> {
-  const options = {
-    method: 'GET',
-    url: 'https://jsearch.p.rapidapi.com/search',
-    params: {
-      query: query,
-      page: page,
-      num_pages: numPages,
-      date_posted: datePosted,
-    },
-    headers: {
-      'x-rapidapi-key': API_KEY,
-      'x-rapidapi-host': API_HOST,
-    },
-  };
+) {
+  const url = `https://jsearch.p.rapidapi.com/search?query=${query}&page=${page}&num_pages=${numPages}&date_posted=${datePosted}`;
 
-  try {
-    const response = await axios.request(options);
-    return response.data.data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw error;
-  }
+  const { data, error } = useSWR(url, fetcher);
+
+  return {
+    jobList: data as IJobDetails[],
+    isLoading: !error && !data,
+    isError: error,
+  };
 }
 
-export async function getSpecificJobs(jobId: string): Promise<IJobDetails[]> {
-  const options = {
-    method: 'GET',
-    url: 'https://jsearch.p.rapidapi.com/job-details',
-    params: {
-      job_id: jobId,
-      extended_publisher_details: 'true',
-    },
-    headers: {
-      'x-rapidapi-key': API_KEY,
-      'x-rapidapi-host': API_HOST,
-    },
-  };
+export function useSpecificJobs(jobId: string) {
+  const url = `https://jsearch.p.rapidapi.com/job-details?job_id=${jobId}&extended_publisher_details=true`;
 
-  try {
-    const response = await axios.request(options);
-    return response.data.data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw error;
-  }
+  const { data, error } = useSWR(url, fetcher);
+
+  return {
+    jobList: data as IJobDetails[],
+    isLoading: !error && !data,
+    isError: error,
+  };
 }
