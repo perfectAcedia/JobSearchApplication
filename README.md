@@ -67,9 +67,8 @@ Your application should now be running at http://localhost:3000.
 - **POST /sign-up**: Create a new user.
 
 ## Deployment
-The frontend application is deployed on Vercel. The backend is deployed on Render. You can access the live versions of the application through the provided deployment URLs.
-- **Versel**: (https://job-search-application-cyan.vercel.app/)
-- **POST /login**: Authenticate user login.
+The frontend application is deployed on Vercel. The backend is deployed on Render. You can access the live version of the application through the provided deployment URL.
+- **Versel**: https://job-search-application-cyan.vercel.app/
 
 ## Contribution
    Feel free to open issues or submit pull requests if you find bugs or have improvements.
