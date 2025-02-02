@@ -2,15 +2,14 @@ import IJobDetails from '@/utils/jobDetails.type';
 import axios from 'axios';
 import useSWR from 'swr';
 
-const API_KEY = 'eb11aacd1amshd126996db0cbb02p1e0fddjsn9e000f846068';
-const API_HOST = 'jsearch.p.rapidapi.com';
+
 
 const fetcher = (url: string) =>
   axios
     .get(url, {
       headers: {
-        'x-rapidapi-key': API_KEY,
-        'x-rapidapi-host': API_HOST,
+        'x-rapidapi-key': process.env.API_KEY,
+        'x-rapidapi-host': process.env.API_HOST,
       },
     })
     .then((res) => res.data.data);
